@@ -31,6 +31,7 @@ public class MyService extends Service {
     @Override
     public void onDestroy() {
         Log.d(TAG , "onDestroy work");
+        service.shutdown();
 
     }
 
