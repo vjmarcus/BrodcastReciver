@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class MyService extends Service {
 
     public static final String TAG  = "MyApp";
+    public static final String TIME = "TIME";
     private ScheduledExecutorService service;
 
     public MyService() {
@@ -36,14 +37,18 @@ public class MyService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public int onStartCommand(final Intent intent, int flags, int startId) {
         Log.d(TAG , "onStartCommand work");
         service.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG, "run: " + System.currentTimeMillis());
+                Intent intentToSent = new Intent(SimpleReceiver.SIMPLE_ACTION);
+                intentToSent.putExtra(TIME, System.currentTimeMillis());
+                sendBroadcast(intentToSent);
+
             }
-        }, 1000, 3000, TimeUnit.MICROSECONDS);
+        }, 1000, 4000, TimeUnit.MILLISECONDS);
         return START_STICKY; // if service was shutdown by system - system try to restart it.
     }
 }

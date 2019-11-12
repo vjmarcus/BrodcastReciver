@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button buttonStartService;
     private Button buttonStopService;
+    private Button buttonSentBroadcast;
     private SimpleReceiver receiver;
     private IntentFilter filter;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         buttonStartService = findViewById(R.id.button_start_service);
         buttonStopService = findViewById(R.id.button_stop_service);
+        buttonSentBroadcast = findViewById(R.id.button_sent_broadcast);
 
         buttonStartService.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,8 +46,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         receiver = new SimpleReceiver();
-        filter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+        filter = new IntentFilter(SimpleReceiver.SIMPLE_ACTION);
 
+        buttonSentBroadcast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendBroadcast(new Intent(SimpleReceiver.SIMPLE_ACTION));
+            }
+        });
     }
 
     @Override
