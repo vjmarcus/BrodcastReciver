@@ -3,6 +3,7 @@ package com.freshappbooks.brodcastreciver;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Button buttonStartService;
     private Button buttonStopService;
+    private SimpleReceiver receiver;
+    private IntentFilter filter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,5 +42,21 @@ public class MainActivity extends AppCompatActivity {
                 stopService(intent);
             }
         });
+
+        receiver = new SimpleReceiver();
+        filter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiver, filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
     }
 }
